@@ -1,0 +1,13 @@
+/**
+ * components/auth/
+ * -----------------
+ * Authentication-related UI components for Findora.
+ *
+ * Files to be created here (future):
+ *  - LoginForm.jsx     – Controlled form component for the Login page
+ *  - RegisterForm.jsx  – Controlled form component for the Register page
+ *  - AuthGuard.jsx     – Higher-order component that checks auth before render
+ */
+
+// This file is intentionally left empty.
+// It serves as a placeholder so Git tracks the auth/ directory.

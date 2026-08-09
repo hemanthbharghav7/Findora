@@ -1,0 +1,856 @@
+/* ============================================================
+   BrowseItems.css – The Evidence Room
+   ============================================================
+   UI STYLES APPLIED:
+   ─────────────────────────────────────────────────────────
+   1. BENTO GRID      → Filter board: search left + controls
+                        right as an asymmetric bento bar.
+   2. GLASSMORPHISM   → Filter board: frosted glass panel.
+   3. NEOMORPHISM     → Type toggle (All/Lost/Found): each
+                        button is a raised/pressed hardware
+                        dial chip. Category select gets the
+                        same treatment.
+   4. SKEUOMORPHISM   → Case file cards: manila folder look —
+                        tab on top-left corner, paper texture,
+                        folded-corner dog-ear detail.
+   5. BRUTALISM       → Status badges (Open/Claimed/Resolved):
+                        harsh neon borders, monospace font.
+   6. NEOMORPHISM     → Pagination buttons: extruded/pressed.
+   ─────────────────────────────────────────────────────────── */
+
+/* ── Page ─────────────────────────────────────────────────── */
+.browse-page {
+  min-height: 100vh;
+  padding: 2.5rem 1.5rem 6rem;
+  background: var(--clr-bg);
+  font-family: var(--font-body);
+  position: relative;
+  overflow-x: hidden;
+}
+
+/* Ambient background glow */
+.browse-page::before {
+  content: '';
+  position: fixed;
+  top: -20%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 1200px;
+  height: 800px;
+  background: radial-gradient(
+    ellipse at center,
+    rgba(255, 159, 10, 0.12) 0%,
+    rgba(255, 115, 0, 0.03) 40%,
+    transparent 70%
+  );
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Corner Orbs */
+.browse-page::after {
+  content: '';
+  position: fixed;
+  bottom: -15%;
+  right: -10%;
+  width: 500px;
+  height: 500px;
+  background: radial-gradient(circle, rgba(255, 115, 0, 0.08) 0%, transparent 75%);
+  filter: blur(80px);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.browse-container {
+  max-width: 1200px;
+  margin-inline: auto;
+  position: relative;
+  z-index: 1;
+}
+
+/* ── Header ───────────────────────────────────────────────── */
+.browse-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+  padding-bottom: 1.75rem;
+  margin-bottom: 1.75rem;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.browse-title {
+  font-family: var(--font-display);
+  font-size: clamp(1.8rem, 4vw, 2.6rem);
+  font-weight: 700;
+  color: #fff;
+  margin-bottom: 0.3rem;
+  letter-spacing: -0.02em;
+  background: linear-gradient(135deg, #fff 40%, var(--clr-accent));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.browse-subtitle {
+  color: var(--clr-text-muted);
+  font-size: 0.9rem;
+  max-width: 480px;
+  line-height: 1.6;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   BENTO GRID + GLASSMORPHISM — Filter Board
+   ─────────────────────────────────────────────────────────
+   The filter bar is a mini bento layout:
+   search input spans the left ~40%, controls fill the right.
+   Glass treatment gives forensic HUD feel.
+   ═══════════════════════════════════════════════════════════ */
+.filter-board {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 1rem;
+  align-items: center;
+  margin-bottom: 2rem;
+  padding: 1.1rem 1.35rem;
+  border-radius: var(--radius-lg);
+
+  /* Glassmorphism */
+  background: rgba(12, 12, 22, 0.6);
+  backdrop-filter: blur(20px) saturate(160%);
+  -webkit-backdrop-filter: blur(20px) saturate(160%);
+  border: 1px solid rgba(255,255,255,0.08);
+  box-shadow:
+    0 8px 32px rgba(0,0,0,0.4),
+    inset 0 1px 0 rgba(255,255,255,0.05),
+    0 0 0 1px rgba(245,166,35,0.03);
+}
+
+.search-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  min-width: 240px;
+}
+
+.search-icon {
+  position: absolute;
+  left: 1rem;
+  font-size: 1rem;
+  pointer-events: none;
+  opacity: 0.55;
+  z-index: 1;
+  transition: opacity 0.2s;
+}
+
+.search-wrapper:focus-within .search-icon { opacity: 1; }
+
+.search-input {
+  width: 100%;
+  background: rgba(255,255,255,0.03);
+  border: none;
+  border-bottom: 1.5px solid rgba(255,255,255,0.08);
+  border-radius: 10px 10px 0 0;
+  color: var(--clr-text);
+  padding: 0.7rem 2.8rem;
+  font-family: var(--font-body);
+  font-size: 0.92rem;
+  outline: none;
+  transition: border-color 0.25s, background 0.25s;
+}
+
+.search-input::placeholder {
+  color: var(--clr-text-faint);
+  font-style: italic;
+}
+
+.search-input:focus {
+  background: rgba(245,166,35,0.04);
+  border-bottom-color: var(--clr-accent);
+}
+
+.search-clear {
+  position: absolute;
+  right: 0.75rem;
+  background: rgba(255,255,255,0.05);
+  border: none;
+  color: var(--clr-text-muted);
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  font-size: 0.7rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.search-clear:hover { background: rgba(255,59,48,0.15); color: #ff6b6b; }
+
+.filter-controls {
+  display: flex;
+  gap: 0.75rem;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   NEOMORPHISM — Type Toggle (All / Lost / Found)
+   ─────────────────────────────────────────────────────────
+   The toggle group is set on a neomorphic "tray".
+   Each button: inactive = raised extrusion,
+                active   = pressed inward.
+   Feels like physical selector switches on a radio unit.
+   ═══════════════════════════════════════════════════════════ */
+.type-toggle-mini {
+  display: flex;
+  border-radius: 10px;
+  overflow: hidden;
+  /* Neomorphic tray */
+  background: #0d0d1e;
+  box-shadow:
+    3px 3px 8px rgba(0,0,0,0.65),
+    -2px -2px 6px rgba(255,255,255,0.022),
+    inset 0 0 0 1px rgba(255,255,255,0.04);
+}
+
+.toggle-btn {
+  background: transparent;
+  border: none;
+  color: var(--clr-text-muted);
+  padding: 0.6rem 0.95rem;
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: 0.8rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  border-right: 1px solid rgba(255,255,255,0.04);
+  letter-spacing: 0.02em;
+  position: relative;
+}
+
+.toggle-btn:last-child { border-right: none; }
+
+.toggle-btn:hover {
+  color: var(--clr-text);
+  background: rgba(255,255,255,0.04);
+}
+
+/* Active = glowing selections */
+.toggle-btn.active {
+  color: #fff;
+  background: rgba(255, 159, 10, 0.08);
+  box-shadow: 0 0 8px rgba(255, 159, 10, 0.2), inset 0 0 0 1.5px rgba(255, 159, 10, 0.35);
+}
+
+.toggle-btn.active.lost {
+  color: var(--clr-lost);
+  background: rgba(255, 59, 48, 0.08);
+  box-shadow: 0 0 8px rgba(255, 59, 48, 0.25), inset 0 0 0 1.5px rgba(255, 59, 48, 0.35);
+}
+
+.toggle-btn.active.found {
+  color: var(--clr-found);
+  background: rgba(0, 201, 167, 0.08);
+  box-shadow: 0 0 8px rgba(0, 201, 167, 0.25), inset 0 0 0 1.5px rgba(0, 201, 167, 0.35);
+}
+
+/* ── NEOMORPHISM — Category / Sort Selects ────────────────── */
+.category-select {
+  /* Raised neomorphic chip */
+  background: #0d0d1e;
+  border: none;
+  border-radius: 10px;
+  color: var(--clr-text);
+  padding: 0.62rem 1rem;
+  font-family: var(--font-body);
+  font-size: 0.84rem;
+  cursor: pointer;
+  outline: none;
+  transition: box-shadow 0.2s;
+  appearance: auto;
+
+  box-shadow:
+    3px 3px 8px rgba(0,0,0,0.65),
+    -2px -2px 5px rgba(255,255,255,0.022),
+    inset 0 0 0 1px rgba(255,255,255,0.04);
+}
+
+.category-select:focus {
+  box-shadow:
+    inset 3px 3px 8px rgba(0,0,0,0.6),
+    inset -1px -1px 4px rgba(255,255,255,0.02),
+    0 0 0 1.5px rgba(245,166,35,0.3);
+  color: var(--clr-accent);
+}
+
+.category-select option {
+  background: #12121a;
+  color: var(--clr-text);
+}
+
+/* ── Reset button ─────────────────────────────────────────── */
+.btn-reset {
+  background: rgba(255,59,48,0.08);
+  border: 1px solid rgba(255,59,48,0.25);
+  border-radius: var(--radius-full);
+  color: #ff6b6b;
+  font-size: 0.78rem;
+  font-weight: 700;
+  padding: 0.5rem 0.9rem;
+  cursor: pointer;
+  transition: all 0.2s;
+  letter-spacing: 0.04em;
+}
+.btn-reset:hover {
+  background: rgba(255,59,48,0.16);
+  border-color: rgba(255,59,48,0.45);
+  transform: translateY(-1px);
+}
+
+/* ── Evidence section ─────────────────────────────────────── */
+.evidence-section { min-height: 300px; }
+
+.results-count {
+  font-family: var(--font-brutal);
+  font-size: 0.72rem;
+  color: var(--clr-text-muted);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  margin-bottom: 1.25rem;
+}
+
+/* ── Case grid ────────────────────────────────────────────── */
+.case-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 1.5rem;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   SKEUOMORPHISM — Case File Cards
+   ─────────────────────────────────────────────────────────
+   Style: Manila folder / physical case dossier.
+   — Tab in top-left corner (folder tab pseudo-element)
+   — Paper-tone gradient background (aged manila)
+   — Subtle paper-grain texture overlay
+   — Dog-eared fold on hover (bottom-right corner clip)
+   — Card shadow mimics paper stack depth
+   ═══════════════════════════════════════════════════════════ */
+.case-file-card {
+  position: relative;
+  /* Manila folder paper tone */
+  background: linear-gradient(
+    155deg,
+    #1a1a2e 0%,
+    #141428 40%,
+    #111124 100%
+  );
+  /* Paper texture overlay via repeating gradient */
+  background-image:
+    repeating-linear-gradient(
+      0deg,
+      rgba(255,255,255,0.008) 0px,
+      rgba(255,255,255,0.008) 1px,
+      transparent 1px,
+      transparent 4px
+    ),
+    linear-gradient(155deg, #1a1a2e 0%, #141428 40%, #111124 100%);
+
+  border: 1px solid rgba(255,255,255,0.07);
+  border-radius: 12px; /* clean uniform border radius */
+  padding: 1.35rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.7rem;
+  transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1),
+              box-shadow 0.35s ease,
+              border-color 0.3s;
+  overflow: hidden;
+  cursor: default;
+
+  /* Paper stack shadow */
+  box-shadow:
+    0 2px 6px rgba(0,0,0,0.4),
+    0 8px 20px rgba(0,0,0,0.3),
+    inset 0 1px 0 rgba(255,255,255,0.04);
+}
+
+/* Removed folder tabs & dog-ears to maintain clean rounded corners */
+
+.case-file-card:hover {
+  transform: translateY(-6px);
+  border-color: rgba(255, 159, 10, 0.4);
+  box-shadow:
+    0 20px 45px rgba(0, 0, 0, 0.65),
+    0 4px 15px rgba(255, 159, 10, 0.14),
+    inset 0 1px 0 rgba(255, 255, 255, 0.06);
+}
+
+/* Removed dog-ear folds */
+
+/* ── Card image ───────────────────────────────────────────── */
+.card-image-wrapper {
+  margin: -1.35rem -1.35rem 0.35rem -1.35rem;
+  height: 155px;
+  border-bottom: 1px solid rgba(255,255,255,0.05);
+  overflow: hidden;
+  border-radius: 12px 12px 0 0;
+}
+
+.card-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0.78;
+  transition: transform 0.45s ease, opacity 0.4s ease;
+}
+
+.case-file-card:hover .card-image {
+  transform: scale(1.06);
+  opacity: 1;
+}
+
+.card-no-image {
+  margin: -1.35rem -1.35rem 0.35rem -1.35rem;
+  height: 100px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2.5rem;
+  background: rgba(0,0,0,0.2);
+  border-bottom: 1px solid rgba(255,255,255,0.04);
+  border-radius: 12px 12px 0 0;
+  filter: drop-shadow(0 0 10px rgba(245,166,35,0.12));
+}
+
+/* ── Case header row ──────────────────────────────────────── */
+.case-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+/* ── BRUTALISM — Status Badges ────────────────────────────── */
+/* Neon-glow borders, Special Elite monospace font */
+.badge {
+  font-family: var(--font-brutal);
+  font-size: 0.62rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 3px 8px;
+  border-radius: 4px;
+  border-width: 1px;
+  border-style: solid;
+}
+
+.badge.open {
+  color: var(--clr-open);
+  border-color: rgba(255,59,48,0.5);
+  background: rgba(255,59,48,0.08);
+  box-shadow: 0 0 8px rgba(255,59,48,0.18), inset 0 0 6px rgba(255,59,48,0.04);
+  text-shadow: 0 0 6px rgba(255,59,48,0.5);
+}
+
+.badge.claimed {
+  color: var(--clr-claimed);
+  border-color: rgba(255,214,10,0.45);
+  background: rgba(255,214,10,0.06);
+  box-shadow: 0 0 8px rgba(255,214,10,0.15);
+  text-shadow: 0 0 6px rgba(255,214,10,0.5);
+}
+
+.badge.resolved {
+  color: var(--clr-resolved);
+  border-color: rgba(52,199,89,0.45);
+  background: rgba(52,199,89,0.08);
+  box-shadow: 0 0 8px rgba(52,199,89,0.15);
+  text-shadow: 0 0 6px rgba(52,199,89,0.4);
+}
+
+/* Case type indicator (LOST/FOUND) */
+.case-type {
+  font-family: var(--font-brutal);
+  font-size: 0.6rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--clr-text-faint);
+  padding: 2px 7px;
+  border-radius: 3px;
+  border: 1px solid rgba(255,255,255,0.06);
+}
+
+/* Card body */
+.case-title {
+  font-family: var(--font-display);
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: #fff;
+  line-height: 1.3;
+  margin: 0;
+}
+
+.case-details {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.case-details p {
+  font-size: 0.78rem;
+  color: var(--clr-text-muted);
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.case-preview {
+  font-size: 0.82rem;
+  color: var(--clr-text-muted);
+  line-height: 1.6;
+  margin: 0;
+  opacity: 0.85;
+  flex: 1;
+}
+
+.case-footer {
+  margin-top: auto;
+  padding-top: 0.75rem;
+  border-top: 1px dashed rgba(255,255,255,0.06);
+}
+
+/* ── Small action button ──────────────────────────────────── */
+.btn-small {
+  display: inline-block;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.08);
+  padding: 0.4rem 0.9rem;
+  border-radius: var(--radius-full);
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--clr-text-muted);
+  transition: all 0.2s;
+  text-decoration: none;
+}
+
+.btn-small:hover {
+  background: linear-gradient(135deg, #ff9f0a 0%, #ff5e00 100%);
+  border-color: rgba(255, 159, 10, 0.4);
+  color: #030307;
+  box-shadow: 0 4px 15px rgba(255, 159, 10, 0.25);
+  transform: translateY(-1.5px);
+}
+
+.w-100 { width: 100%; }
+.text-center { text-align: center; }
+
+/* ── Empty state ──────────────────────────────────────────── */
+.empty-state {
+  text-align: center;
+  padding: 4rem var(--space-lg);
+  color: var(--clr-text-muted);
+}
+
+.empty-icon {
+  font-size: 3.5rem;
+  display: block;
+  margin-bottom: 1rem;
+  filter: grayscale(0.3);
+}
+
+.empty-state h3 {
+  font-family: var(--font-display);
+  font-size: 1.4rem;
+  color: var(--clr-text);
+  margin-bottom: 0.5rem;
+}
+
+.empty-state p { font-size: 0.9rem; }
+
+/* ── Error ────────────────────────────────────────────────── */
+.form-error {
+  font-family: var(--font-brutal);
+  font-size: 0.82rem;
+  letter-spacing: 0.04em;
+  background: rgba(255,59,48,0.07);
+  border: 1.5px solid var(--clr-danger);
+  border-radius: 4px;
+  color: #ff6b6b;
+  padding: 0.7rem 1rem;
+  display: flex;
+  align-items: flex-start;
+  gap: 0.45rem;
+  line-height: 1.5;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   NEOMORPHISM — Pagination
+   ─────────────────────────────────────────────────────────
+   Each page button is a raised neomorphic chip.
+   Active = pressed inward.
+   ═══════════════════════════════════════════════════════════ */
+.pagination {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
+  margin-top: 3rem;
+  flex-wrap: wrap;
+}
+
+.page-numbers {
+  display: flex;
+  gap: 0.4rem;
+  align-items: center;
+}
+
+.page-btn {
+  /* Raised neomorphic chip */
+  background: #0d0d1e;
+  border: none;
+  border-radius: 10px;
+  color: var(--clr-text-muted);
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: 0.85rem;
+  min-width: 38px;
+  height: 38px;
+  padding: 0 0.75rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+
+  box-shadow:
+    3px 3px 8px rgba(0,0,0,0.65),
+    -2px -2px 5px rgba(255,255,255,0.022);
+}
+
+.page-btn:hover:not(:disabled) {
+  color: var(--clr-text);
+  box-shadow:
+    2px 2px 5px rgba(0,0,0,0.55),
+    -1px -1px 4px rgba(255,255,255,0.025),
+    0 0 0 1px rgba(245,166,35,0.2);
+}
+
+/* Active page = pressed in */
+.page-btn.active {
+  color: var(--clr-accent);
+  box-shadow:
+    inset 3px 3px 8px rgba(0,0,0,0.65),
+    inset -1px -1px 4px rgba(255,255,255,0.02),
+    0 0 0 1.5px rgba(245,166,35,0.35);
+  background: #0a0a1a;
+}
+
+.page-btn:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+  box-shadow: 1px 1px 4px rgba(0,0,0,0.4), -1px -1px 3px rgba(255,255,255,0.015);
+}
+
+.page-arrow {
+  font-size: 0.8rem;
+  padding: 0 1rem;
+  min-width: 80px;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+}
+
+.page-ellipsis {
+  color: var(--clr-text-faint);
+  font-size: 0.9rem;
+  padding: 0 0.3rem;
+  user-select: none;
+}
+
+/* ── Responsive ───────────────────────────────────────────── */
+@media (max-width: 900px) {
+  .filter-board { grid-template-columns: 1fr; }
+  .filter-controls { justify-content: flex-start; }
+  .case-grid { grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); }
+}
+
+@media (max-width: 600px) {
+  .browse-header { flex-direction: column; align-items: flex-start; }
+  .case-grid { grid-template-columns: 1fr; }
+  .filter-controls { gap: 0.5rem; }
+  .type-toggle-mini { width: 100%; }
+  .toggle-btn { flex: 1; }
+  .category-select { width: 100%; }
+  .page-arrow { min-width: 60px; font-size: 0.75rem; }
+}
+
+/* ── Detective Scan Room Overlay & Radar Styles ──────────── */
+@keyframes radarPing {
+  0% { transform: scale(0.8); opacity: 0.5; }
+  50% { opacity: 1; }
+  100% { transform: scale(2); opacity: 0; }
+}
+
+.scan-radar-bar {
+  grid-column: 1 / -1;
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  background: rgba(6, 6, 12, 0.45);
+  border: 1px solid rgba(255, 159, 10, 0.15);
+  border-radius: var(--radius-md);
+  padding: 0.5rem 1rem;
+  margin-bottom: 0.75rem;
+  font-family: var(--font-brutal);
+  font-size: 0.7rem;
+  letter-spacing: 0.08em;
+  position: relative;
+  overflow: hidden;
+}
+
+.radar-status {
+  color: #ff9f0a;
+  font-weight: 700;
+}
+
+.radar-ping {
+  width: 6px;
+  height: 6px;
+  background-color: #ff453a;
+  border-radius: 50%;
+  box-shadow: 0 0 6px #ff453a;
+  position: relative;
+  display: inline-block;
+}
+
+.radar-ping::after {
+  content: '';
+  position: absolute;
+  top: -3px;
+  left: -3px;
+  right: -3px;
+  bottom: -3px;
+  border: 1.5px solid #ff453a;
+  border-radius: 50%;
+  animation: radarPing 2s infinite ease-out;
+}
+
+.radar-text {
+  color: var(--clr-text-faint);
+  animation: textPulse 3s infinite ease-in-out;
+}
+
+/* Forensic camera crosshairs overlay inside cards */
+.card-image-wrapper,
+.card-no-image {
+  position: relative;
+}
+
+.card-photo-corners {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 2;
+  padding: 8px;
+}
+
+.card-photo-corners .card-corner {
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  border: 1.5px solid rgba(255, 159, 10, 0.35);
+  transition: border-color var(--transition);
+}
+
+.card-photo-corners .card-corner.tl { top: 8px; left: 8px; border-right: none; border-bottom: none; }
+.card-photo-corners .card-corner.tr { top: 8px; right: 8px; border-left: none; border-bottom: none; }
+.card-photo-corners .card-corner.bl { bottom: 8px; left: 8px; border-right: none; border-top: none; }
+.card-photo-corners .card-corner.br { bottom: 8px; right: 8px; border-left: none; border-top: none; }
+
+.case-file-card:hover .card-photo-corners .card-corner {
+  border-color: rgba(255, 159, 10, 0.7);
+}
+
+/* Card Case Number stamp text */
+.card-case-num {
+  font-family: var(--font-brutal);
+  font-size: 0.65rem;
+  letter-spacing: 0.1em;
+  color: var(--clr-text-faint);
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  padding: 1px 6px;
+  border-radius: 3px;
+  font-weight: 500;
+  transition: border-color var(--transition), color var(--transition);
+}
+
+.case-file-card:hover .card-case-num {
+  border-color: rgba(255, 159, 10, 0.25);
+  color: #ff9f0a;
+}
+
+/* ── Resolved Case Styling Overrides ─────────────────────── */
+.case-file-card.status-resolved {
+  background: linear-gradient(155deg, #0a140f 0%, #060e0a 50%, #030805 100%) !important;
+  border-color: rgba(52, 199, 89, 0.15) !important;
+  opacity: 0.8;
+  box-shadow: 
+    0 10px 30px rgba(0, 0, 0, 0.5),
+    inset 0 1px 0 rgba(255, 255, 255, 0.02);
+}
+
+.case-file-card.status-resolved .card-image {
+  opacity: 0.45;
+  filter: grayscale(0.5) contrast(0.95);
+}
+
+.case-file-card.status-resolved:hover {
+  transform: translateY(-2px); /* smaller lift for closed cases */
+  border-color: rgba(52, 199, 89, 0.35) !important;
+  box-shadow: 
+    0 15px 35px rgba(0, 0, 0, 0.6),
+    0 4px 15px rgba(52, 199, 89, 0.1),
+    inset 0 1px 0 rgba(255, 255, 255, 0.03);
+}
+
+.case-file-card.status-resolved:hover .card-image {
+  transform: scale(1.02);
+  opacity: 0.55;
+}
+
+.resolved-card-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(3, 8, 5, 0.45); /* dark green tinted overlay */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+  z-index: 5;
+  border-radius: 12px;
+}
+
+.resolved-card-stamp {
+  font-family: var(--font-brutal);
+  font-size: 2.2rem;
+  font-weight: 800;
+  color: rgba(48, 209, 88, 0.45); /* double double stamped resolved tag */
+  border: 3px double rgba(48, 209, 88, 0.45);
+  padding: 0.4rem 1.4rem;
+  transform: rotate(-12deg);
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  border-radius: 8px;
+  box-shadow: 0 0 12px rgba(48, 209, 88, 0.05);
+  background: rgba(3, 8, 5, 0.7); /* solid backplate to cover photo text behind stamp */
+  backdrop-filter: blur(2px);
+}

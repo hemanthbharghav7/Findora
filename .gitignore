@@ -1,0 +1,42 @@
+# ──────────────────────────────────────────────
+# Findora – Root .gitignore
+# ──────────────────────────────────────────────
+
+# ── Node / npm ────────────────────────────────
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+*.log
+
+# ── Environment variables ─────────────────────
+# Never commit real secrets – only .env.example
+.env
+.env.local
+.env.*.local
+
+# ── Build outputs ─────────────────────────────
+dist/
+dist-ssr/
+build/
+
+# ── Uploads (user-generated files) ───────────
+# Keep the uploads/ directory but ignore its contents
+backend/uploads/*
+!backend/uploads/.gitkeep
+
+# ── OS / editor files ─────────────────────────
+.DS_Store
+Thumbs.db
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+.idea/
+.vscode/*
+!.vscode/extensions.json
+
+# ── Vite ──────────────────────────────────────
+*.local

@@ -1,0 +1,15 @@
+/**
+ * hooks/
+ * ------
+ * Custom React hooks for Findora.
+ *
+ * Files to be created here (future):
+ *  - useAuth.js        – Convenience hook: const { user, login } = useAuth();
+ *  - useCases.js       – Fetches and manages case list state + pagination
+ *  - useForm.js        – Generic controlled form state + validation helper
+ *  - useDebounce.js    – Debounces a value (used for live search inputs)
+ *  - useLocalStorage.js – Persists state to localStorage with automatic hydration
+ */
+
+// This file is intentionally left empty.
+// It serves as a placeholder so Git tracks the hooks/ directory.

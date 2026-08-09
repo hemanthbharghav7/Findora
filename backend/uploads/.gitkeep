@@ -1,0 +1,14 @@
+# uploads/
+# --------
+# This directory stores image files uploaded by users when reporting items.
+# Files are served statically at: GET /uploads/<filename>
+#
+# Structure (managed automatically by uploadMiddleware):
+#   uploads/
+#     1691234567890-photo.jpg
+#     1691234600000-item.png
+#     ...
+#
+# Git ignores all file contents in this directory (see root .gitignore).
+# This .gitkeep ensures the empty directory is tracked by Git so that
+# multer's disk storage can write files here on first upload.

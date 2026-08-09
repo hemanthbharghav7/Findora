@@ -1,0 +1,17 @@
+/**
+ * components/items/
+ * -----------------
+ * Item-specific UI components for Findora.
+ * Renamed from components/cases/ → components/items/ to match the Item resource.
+ *
+ * Files to be created here (future):
+ *  - ItemCard.jsx        – Summary card shown in the BrowseItems grid/list view
+ *  - ItemForm.jsx        – Controlled form for reporting a new lost or found item
+ *  - ItemFilter.jsx      – Filter + sort control panel for the BrowseItems page
+ *  - ImageUpload.jsx     – Drag-and-drop / click image picker with preview
+ *  - ClaimForm.jsx       – Form to submit a claim on an item
+ *  - ClaimList.jsx       – Renders the list of embedded claims inside ItemDetails
+ */
+
+// This file is intentionally left empty.
+// It serves as a placeholder so Git tracks the items/ directory.

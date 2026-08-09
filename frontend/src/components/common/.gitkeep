@@ -1,0 +1,17 @@
+/**
+ * components/common/
+ * ------------------
+ * Shared, reusable UI components used throughout Findora.
+ *
+ * Files to be created here (future):
+ *  - Button.jsx        – Reusable button with variants (primary, secondary, danger)
+ *  - Input.jsx         – Styled text/email/password input
+ *  - Modal.jsx         – Generic overlay modal dialog
+ *  - Spinner.jsx       – Loading spinner shown during API calls
+ *  - Badge.jsx         – Status badge (Lost, Found, Resolved, Pending)
+ *  - Card.jsx          – Case summary card for the Browse page grid
+ *  - Alert.jsx         – Success / error / info banner messages
+ */
+
+// This file is intentionally left empty.
+// It serves as a placeholder so Git tracks the common/ directory.

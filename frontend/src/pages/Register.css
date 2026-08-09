@@ -1,0 +1,518 @@
+/* ============================================================
+   Register.css – AAA Premium Dark-Mode Detective Register Page
+   ============================================================ */
+
+/* ── Keyframe Animations ────────────────────────────────── */
+@keyframes shiftGradient {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+@keyframes pulseBadgeRing {
+  0% {
+    transform: scale(0.95);
+    opacity: 0.6;
+    box-shadow: 0 0 0 0 rgba(255, 159, 10, 0.5);
+  }
+  70% {
+    transform: scale(1.15);
+    opacity: 0;
+    box-shadow: 0 0 0 12px rgba(255, 159, 10, 0);
+  }
+  100% {
+    transform: scale(0.95);
+    opacity: 0;
+    box-shadow: 0 0 0 0 rgba(255, 159, 10, 0);
+  }
+}
+
+@keyframes spinnerRotate {
+  to { transform: rotate(360deg); }
+}
+
+/* ── Container Layout ────────────────────────────────────── */
+.register-page-container {
+  min-height: 100vh;
+  width: 100vw;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  background-color: #030307; /* Pitch black environment */
+  overflow: hidden;
+  padding: var(--space-xl) var(--space-lg);
+  font-family: var(--font-body);
+}
+
+/* Ambient Orbs */
+.register-page-container::before,
+.register-page-container::after {
+  content: '';
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(100px);
+  pointer-events: none;
+  z-index: 1;
+}
+
+.register-page-container::before {
+  top: -10%;
+  left: -10%;
+  width: 500px;
+  height: 500px;
+  background: radial-gradient(circle, rgba(255, 159, 10, 0.15) 0%, transparent 75%);
+}
+
+.register-page-container::after {
+  bottom: -10%;
+  right: -10%;
+  width: 600px;
+  height: 600px;
+  background: radial-gradient(circle, rgba(255, 115, 0, 0.1) 0%, transparent 75%);
+}
+
+/* Ambient Spotlight */
+.register-spotlight {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 90vw;
+  height: 90vw;
+  background: radial-gradient(circle, rgba(255, 159, 10, 0.16) 0%, rgba(255, 115, 0, 0.05) 30%, rgba(191, 90, 242, 0.02) 60%, transparent 80%);
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* Forensic Grid Overlay */
+.register-grid-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-image: 
+    linear-gradient(rgba(255, 255, 255, 0.015) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.015) 1px, transparent 1px);
+  background-size: 28px 28px;
+  background-position: center;
+  pointer-events: none;
+  z-index: 2;
+}
+
+/* ── Card Wrapper & Glassmorphism ────────────────────────── */
+.register-card-wrapper {
+  position: relative;
+  z-index: 5;
+  width: 100%;
+  max-width: 480px;
+}
+
+.register-card {
+  width: 100%;
+  background: rgba(12, 12, 22, 0.65); /* Semi-transparent dark surface */
+  backdrop-filter: blur(18px) saturate(180%);
+  -webkit-backdrop-filter: blur(18px) saturate(180%);
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  border-radius: var(--radius-lg);
+  padding: var(--space-xl) var(--space-lg);
+  box-shadow: 
+    0 25px 50px -12px rgba(0, 0, 0, 0.8),
+    inset 0 1px 1px rgba(255, 255, 255, 0.12); /* Inside edge lighting at top */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* ── Badge & Icon ────────────────────────────────────────── */
+.register-badge-container {
+  position: relative;
+  margin-bottom: var(--space-md);
+}
+
+.register-icon-badge {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255, 159, 10, 0.12) 0%, rgba(255, 159, 10, 0.02) 100%);
+  border: 1.5px solid rgba(255, 159, 10, 0.35);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 
+    0 0 15px rgba(255, 159, 10, 0.15),
+    inset 0 0 10px rgba(255, 159, 10, 0.08);
+  position: relative;
+  z-index: 4;
+}
+
+.register-badge-svg {
+  width: 26px;
+  height: 26px;
+  color: #ff9f0a;
+  filter: drop-shadow(0 0 4px rgba(255, 159, 10, 0.4));
+}
+
+.badge-pulse {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  border-radius: 50%;
+  border: 1.5px solid rgba(255, 159, 10, 0.35);
+  z-index: 2;
+  animation: pulseBadgeRing 2.4s cubic-bezier(0.25, 0, 0, 1) infinite;
+}
+
+/* ── Headings ────────────────────────────────────────────── */
+.register-header {
+  text-align: center;
+  margin-bottom: var(--space-lg);
+}
+
+.register-title {
+  font-family: var(--font-display); /* Playfair Display */
+  font-size: 2.1rem;
+  font-weight: 700;
+  color: var(--clr-text);
+  letter-spacing: -0.01em;
+  margin-bottom: var(--space-xs);
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+}
+
+.register-subtitle {
+  font-size: 0.95rem;
+  color: var(--clr-text-muted);
+}
+
+/* ── Form Layout ─────────────────────────────────────────── */
+.register-form {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+}
+
+.register-form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.register-form-label {
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--clr-text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+/* ── Tactile Inputs (Spatial UI) ────────────────────────── */
+.register-input-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  background-color: rgba(6, 6, 12, 0.7); /* Deep dark inset base */
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: var(--radius-md);
+  box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.85); /* Deep inset shadow */
+  transition: all var(--transition);
+}
+
+.register-input-icon {
+  position: absolute;
+  left: var(--space-md);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  color: var(--clr-text-faint);
+  transition: color var(--transition);
+  pointer-events: none;
+}
+
+.register-input-icon svg {
+  width: 100%;
+  height: 100%;
+}
+
+.register-form-input {
+  width: 100%;
+  background: transparent;
+  border: none;
+  outline: none;
+  padding: 0.85rem var(--space-xl) 0.85rem 2.85rem;
+  color: var(--clr-text);
+  font-family: var(--font-body);
+  font-size: 0.95rem;
+  border-radius: var(--radius-md);
+}
+
+.register-form-input::placeholder {
+  color: var(--clr-text-faint);
+}
+
+/* Autofill overrides for dark mode inputs */
+.register-form-input:-webkit-autofill,
+.register-form-input:-webkit-autofill:hover, 
+.register-form-input:-webkit-autofill:focus, 
+.register-form-input:-webkit-autofill:active {
+  -webkit-box-shadow: 0 0 0 100px #06060c inset !important;
+  -webkit-text-fill-color: #e8e8f0 !important;
+  transition: background-color 5000s ease-in-out 0s;
+}
+
+/* Password eye toggle */
+.register-pw-toggle {
+  position: absolute;
+  right: var(--space-md);
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  font-size: 1.1rem;
+  color: var(--clr-text-muted);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: color var(--transition);
+}
+
+.register-pw-toggle:hover {
+  color: var(--clr-text);
+}
+
+/* Spatial Focus Effect */
+.register-input-wrapper:focus-within {
+  border-color: #ff9f0a; /* Glowing gold border */
+  box-shadow: 
+    inset 0 2px 4px rgba(0, 0, 0, 0.8),
+    0 0 15px rgba(255, 159, 10, 0.16);
+  transform: translateY(-1px); /* Slight lift */
+}
+
+.register-input-wrapper:focus-within .register-input-icon {
+  color: #ff9f0a; /* Icon lights up gold */
+  filter: drop-shadow(0 0 4px rgba(255, 159, 10, 0.4));
+}
+
+/* Password Strength Bar */
+.strength-container {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  margin-top: 4px;
+}
+
+.strength-bar-wrap {
+  display: flex;
+  gap: 4px;
+  flex-grow: 1;
+}
+
+.strength-segment {
+  height: 4px;
+  flex-grow: 1;
+  background-color: rgba(255, 255, 255, 0.08);
+  border-radius: var(--radius-full);
+  transition: background-color 0.3s ease;
+}
+
+.strength-segment.weak { background-color: #ff453a; }
+.strength-segment.medium { background-color: #ff9f0a; }
+.strength-segment.strong { background-color: #30d158; }
+
+.strength-label {
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  white-space: nowrap;
+}
+
+.weak-text { color: #ff453a; }
+.medium-text { color: #ff9f0a; }
+.strong-text { color: #30d158; }
+
+/* Links */
+.register-login-link {
+  font-size: 0.95rem;
+  color: #ff9f0a;
+  text-decoration: none;
+  font-weight: 500;
+  position: relative;
+  transition: color var(--transition);
+}
+
+.register-login-link:hover {
+  color: #ffbe4d;
+}
+
+.register-login-link::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: -2px;
+  width: 0;
+  height: 1.5px;
+  background-color: #ff9f0a;
+  transition: width var(--transition);
+}
+
+.register-login-link:hover::after {
+  width: 100%;
+}
+
+/* ── Rich Gradient Button ───────────────────────────────── */
+.register-submit-btn {
+  margin-top: var(--space-sm);
+  padding: 0.9rem;
+  border-radius: var(--radius-md);
+  border: none;
+  outline: none;
+  font-family: var(--font-body);
+  font-weight: 700;
+  font-size: 1rem;
+  color: #030307;
+  cursor: pointer;
+  background: linear-gradient(135deg, #ff9f0a 0%, #ff5e00 50%, #ff3b30 100%);
+  background-size: 200% 200%;
+  box-shadow: 0 4px 15px rgba(255, 115, 0, 0.25);
+  transition: all 0.35s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+.register-submit-btn:hover:not(:disabled) {
+  transform: translateY(-2px);
+  background-position: right center;
+  box-shadow: 
+    0 8px 25px rgba(255, 115, 0, 0.45),
+    0 0 15px rgba(255, 159, 10, 0.2);
+}
+
+.register-submit-btn:active:not(:disabled) {
+  transform: translateY(-1px);
+}
+
+.register-submit-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* Spinner */
+.register-spinner-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-sm);
+}
+
+.register-btn-spinner {
+  width: 18px;
+  height: 18px;
+  border: 2px solid rgba(3, 3, 7, 0.35);
+  border-top-color: #030307;
+  border-radius: 50%;
+  animation: spinnerRotate 0.6s linear infinite;
+}
+
+/* ── Feedback Banners ────────────────────────────────────── */
+.register-error-banner {
+  width: 100%;
+  background: rgba(255, 59, 48, 0.08);
+  border: 1px solid rgba(255, 59, 48, 0.3);
+  color: #ff453a;
+  padding: 0.75rem var(--space-md);
+  border-radius: var(--radius-md);
+  font-family: var(--font-brutal); /* Special Elite style */
+  font-size: 0.85rem;
+  margin-bottom: var(--space-md);
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.5);
+  box-shadow: inset 0 0 10px rgba(255, 59, 48, 0.03);
+}
+
+.register-success-banner {
+  width: 100%;
+  background: rgba(48, 209, 88, 0.08);
+  border: 1px solid rgba(48, 209, 88, 0.3);
+  color: #30d158;
+  padding: 0.75rem var(--space-md);
+  border-radius: var(--radius-md);
+  font-family: var(--font-brutal);
+  font-size: 0.85rem;
+  margin-bottom: var(--space-md);
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.5);
+  box-shadow: inset 0 0 10px rgba(48, 209, 88, 0.03);
+}
+
+/* ── Divider ─────────────────────────────────────────────── */
+.register-divider {
+  width: 100%;
+  text-align: center;
+  border-bottom: 1px solid var(--clr-border);
+  line-height: 0.1em;
+  margin: var(--space-lg) 0;
+}
+
+.register-divider span {
+  background-color: #0a0a14;
+  padding: 0 10px;
+  color: var(--clr-text-faint);
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+/* ── Footer ──────────────────────────────────────────────── */
+.register-footer {
+  text-align: center;
+  font-size: 0.9rem;
+  color: var(--clr-text-muted);
+}
+
+/* Custom Dropdown select arrow */
+.register-input-wrapper select {
+  appearance: none;
+  -webkit-appearance: none;
+  background: transparent;
+  width: 100%;
+  outline: none;
+  border: none;
+  color: var(--clr-text);
+  padding: 0.85rem var(--space-xl) 0.85rem 2.85rem;
+  font-family: var(--font-body);
+  font-size: 0.95rem;
+  cursor: pointer;
+}
+
+.register-select-arrow {
+  position: absolute;
+  right: var(--space-md);
+  pointer-events: none;
+  color: var(--clr-text-faint);
+  font-size: 0.75rem;
+  transition: color var(--transition);
+}
+
+.register-input-wrapper:focus-within .register-select-arrow {
+  color: #ff9f0a;
+  filter: drop-shadow(0 0 4px rgba(255, 159, 10, 0.4));
+}
+
+/* ── Mobile Responsiveness (< 480px) ────────────────────── */
+@media (max-width: 479px) {
+  .register-card {
+    padding: var(--space-lg) var(--space-md);
+    border-radius: var(--radius-md);
+  }
+
+  .register-title {
+    font-size: 1.75rem;
+  }
+}

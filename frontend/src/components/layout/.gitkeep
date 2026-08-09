@@ -1,0 +1,14 @@
+/**
+ * components/layout/
+ * -------------------
+ * Page structure / shell components for Findora.
+ *
+ * Files to be created here (future):
+ *  - Navbar.jsx        – Top navigation bar with logo, nav links, auth buttons
+ *  - Footer.jsx        – Footer with links and copyright
+ *  - Sidebar.jsx       – Optional collapsible sidebar for dashboard
+ *  - PageWrapper.jsx   – Wraps each page with consistent padding and max-width
+ */
+
+// This file is intentionally left empty.
+// It serves as a placeholder so Git tracks the layout/ directory.

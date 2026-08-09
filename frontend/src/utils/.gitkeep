@@ -1,0 +1,14 @@
+/**
+ * utils/
+ * ------
+ * Pure utility / helper functions for Findora frontend.
+ *
+ * Files to be created here (future):
+ *  - formatDate.js     – Format ISO date strings into human-readable text
+ *  - validators.js     – Email regex, password strength, required field checks
+ *  - constants.js      – App-wide constants (item categories, status labels, etc.)
+ *  - helpers.js        – General helpers (truncate text, capitalize, slugify, etc.)
+ */
+
+// This file is intentionally left empty.
+// It serves as a placeholder so Git tracks the utils/ directory.

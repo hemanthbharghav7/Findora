@@ -1,0 +1,11 @@
+/* styles/
+ * -------
+ * Global and modular CSS files for Findora.
+ *
+ * Future contents:
+ *  - variables.css     – CSS custom properties: colors, fonts, spacing, breakpoints
+ *  - reset.css         – Browser default style normalizations
+ *  - typography.css    – Heading and body text styles
+ *  - utilities.css     – Single-purpose helper classes (flex, grid, gap, etc.)
+ *  - animations.css    – Keyframe animations and transition classes
+ */

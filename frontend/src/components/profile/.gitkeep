@@ -1,0 +1,15 @@
+/**
+ * components/profile/
+ * --------------------
+ * Profile-related UI components for Findora.
+ *
+ * Files to be created here (future):
+ *  - ProfileCard.jsx    – Displays user avatar, name, and stats
+ *  - EditProfileForm.jsx – Form for updating name and avatar
+ *  - ChangePasswordForm.jsx – Separate form for updating password
+ *  - UserCasesList.jsx  – Shows cases reported by the current user
+ *  - UserClaimsList.jsx – Shows claims submitted by the current user
+ */
+
+// This file is intentionally left empty.
+// It serves as a placeholder so Git tracks the profile/ directory.

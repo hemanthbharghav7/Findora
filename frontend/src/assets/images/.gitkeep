@@ -1,0 +1,10 @@
+/* images/
+ * -------
+ * Static image assets for Findora.
+ *
+ * Future contents:
+ *  - logo.png          – Findora brand logo
+ *  - hero-banner.jpg   – Hero section background image
+ *  - detective-404.png – Illustration for the 404 Not Found page
+ *  - placeholder.png   – Default image shown when a case has no uploaded photo
+ */

@@ -1,0 +1,439 @@
+/* ============================================================
+   Auth.css – Login & Register pages
+   ============================================================
+   UI STYLES APPLIED:
+   ─────────────────────────────────────────────────────────
+   1. GLASSMORPHISM   → Auth card — frosted glass surface
+   2. MINIMALISM      → Inputs: clean, stripped back; only
+                        an underline and floating label
+   3. SPATIAL UI      → On focus, the entire input wrapper
+                        lifts off the form with translateY +
+                        an elevated Z-depth shadow — the
+                        active field "floats" above the rest
+   4. BRUTALISM       → Error banners: harsh red border,
+                        monospace Special Elite font
+   ─────────────────────────────────────────────────────────── */
+
+/* ── Page ─────────────────────────────────────────────────── */
+.auth-page {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-lg);
+  position: relative;
+  overflow: hidden;
+}
+
+/* Ambient orbs */
+.auth-page::before,
+.auth-page::after {
+  content: '';
+  position: fixed;
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 0;
+  filter: blur(80px);
+}
+
+.auth-page::before {
+  top: -20%;
+  left: -10%;
+  width: 600px;
+  height: 600px;
+  background: radial-gradient(circle, rgba(245,166,35,0.1) 0%, transparent 70%);
+  animation: orb-drift-1 16s ease-in-out infinite;
+}
+
+.auth-page::after {
+  bottom: -20%;
+  right: -10%;
+  width: 500px;
+  height: 500px;
+  background: radial-gradient(circle, rgba(0,201,167,0.07) 0%, transparent 70%);
+  animation: orb-drift-2 20s ease-in-out infinite;
+}
+
+@keyframes orb-drift-1 {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  50%       { transform: translate(30px, 20px) scale(1.08); }
+}
+@keyframes orb-drift-2 {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  50%       { transform: translate(-25px, -20px) scale(1.06); }
+}
+
+/* ═══════════════════════════════════════════════════════════
+   GLASSMORPHISM — Auth Card
+   ─────────────────────────────────────────────────────────
+   Frosted dark glass surface — like a forensic terminal
+   screen overlaid on the investigation backdrop.
+   ═══════════════════════════════════════════════════════════ */
+.auth-card {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  max-width: 460px;
+
+  /* Glass base */
+  background: rgba(12, 12, 22, 0.65);
+  backdrop-filter: blur(24px) saturate(180%);
+  -webkit-backdrop-filter: blur(24px) saturate(180%);
+  border: 1px solid rgba(255,255,255,0.09);
+  border-radius: var(--radius-xl);
+  padding: 3rem 2.5rem;
+
+  /* Depth */
+  box-shadow:
+    0 0 0 1px rgba(245,166,35,0.05),
+    0 40px 80px rgba(0,0,0,0.65),
+    inset 0 1px 0 rgba(255,255,255,0.07);
+
+  animation: authCardIn 0.6s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+/* Top-edge glass sheen */
+.auth-card::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 15%;
+  right: 15%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.15), transparent);
+  pointer-events: none;
+}
+
+@keyframes authCardIn {
+  from { opacity: 0; transform: translateY(36px) scale(0.97); }
+  to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+/* ── Logo icon ────────────────────────────────────────────── */
+.auth-logo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 62px;
+  height: 62px;
+  background: rgba(245,166,35,0.1);
+  border: 1px solid rgba(245,166,35,0.28);
+  border-radius: 16px;
+  font-size: 1.9rem;
+  margin: 0 auto 1.4rem;
+  animation: floatLogo 4s ease-in-out infinite;
+  box-shadow: 0 0 28px rgba(245,166,35,0.15);
+}
+
+@keyframes floatLogo {
+  0%, 100% { transform: translateY(0) rotate(-2deg); }
+  50%       { transform: translateY(-6px) rotate(2deg); }
+}
+
+/* ── Typography ───────────────────────────────────────────── */
+.auth-title {
+  font-family: var(--font-display);
+  font-size: clamp(1.6rem, 4vw, 2rem);
+  font-weight: 700;
+  color: #fff;
+  text-align: center;
+  margin-bottom: 0.3rem;
+  letter-spacing: -0.01em;
+}
+
+.auth-subtitle {
+  color: var(--clr-text-muted);
+  font-size: 0.88rem;
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+/* ── Form ─────────────────────────────────────────────────── */
+.auth-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   MINIMALISM + SPATIAL UI — Form Inputs
+   ─────────────────────────────────────────────────────────
+   Minimalism: The input is stripped down — no box border,
+   just a single bottom underline. Reduces visual clutter.
+
+   Spatial UI: On :focus-within, the entire .form-group
+   "lifts" via translateY(-2px) + an elevated box-shadow,
+   creating a genuine 3D depth effect — the active field
+   visually "floats" above the rest of the form.
+   ═══════════════════════════════════════════════════════════ */
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+  will-change: transform;
+}
+
+/* Spatial lift on focus */
+.form-group:focus-within {
+  transform: translateY(-2px);
+}
+
+.form-label {
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--clr-text-muted);
+  transition: color 0.25s;
+}
+
+.form-group:focus-within .form-label {
+  color: var(--clr-accent);
+}
+
+/* Input wrapper */
+.input-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+
+  /* Spatial UI: elevated shadow on focus-within */
+  border-radius: 10px;
+  transition: box-shadow 0.3s ease;
+}
+
+.input-wrapper:focus-within {
+  box-shadow:
+    0 8px 28px rgba(0,0,0,0.45),
+    0 0 0 1px rgba(245,166,35,0.2),
+    0 2px 0 rgba(245,166,35,0.15);
+}
+
+.input-icon {
+  position: absolute;
+  left: 14px;
+  font-size: 1rem;
+  pointer-events: none;
+  opacity: 0.5;
+  transition: opacity 0.25s, transform 0.25s;
+}
+
+.input-wrapper:focus-within .input-icon {
+  opacity: 1;
+  transform: scale(1.1);
+}
+
+/* ── MINIMALISM — Input field ─────────────────────────────── */
+/* Clean, borderless; only a bottom underline. The background
+   is nearly transparent — content takes focus, not chrome. */
+.form-input {
+  width: 100%;
+  background: rgba(255,255,255,0.025);
+  border: none;
+  border-bottom: 1.5px solid rgba(255,255,255,0.1);
+  border-radius: 10px 10px 0 0;
+  color: var(--clr-text);
+  font-family: var(--font-body);
+  font-size: 0.95rem;
+  padding: 0.78rem 1rem 0.78rem 2.85rem;
+  outline: none;
+  transition: background 0.3s, border-color 0.3s;
+}
+
+.form-input::placeholder {
+  color: var(--clr-text-faint);
+  font-style: italic;
+  font-size: 0.88rem;
+}
+
+/* Autofill overrides for dark mode inputs */
+.form-input:-webkit-autofill,
+.form-input:-webkit-autofill:hover, 
+.form-input:-webkit-autofill:focus, 
+.form-input:-webkit-autofill:active {
+  -webkit-box-shadow: 0 0 0 100px #10101c inset !important;
+  -webkit-text-fill-color: #e8e8f0 !important;
+  transition: background-color 5000s ease-in-out 0s;
+}
+
+.form-input:focus {
+  background: rgba(245,166,35,0.04);
+  border-bottom-color: var(--clr-accent);
+}
+
+/* Date picker icon fix */
+.form-input[type="date"]::-webkit-calendar-picker-indicator {
+  filter: invert(0.5);
+  cursor: pointer;
+}
+
+/* Textarea variant */
+.form-textarea {
+  border-radius: 10px;
+  border: 1px solid rgba(255,255,255,0.08);
+  min-height: 100px;
+  resize: vertical;
+  line-height: 1.7;
+  padding: 0.78rem 1rem;
+}
+
+.form-textarea:focus {
+  border-color: rgba(245,166,35,0.4);
+  background: rgba(245,166,35,0.03);
+}
+
+/* Password toggle */
+.pw-toggle {
+  position: absolute;
+  right: 12px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--clr-text-muted);
+  font-size: 1rem;
+  display: flex;
+  align-items: center;
+  padding: 4px;
+  border-radius: 6px;
+  transition: color 0.2s, background 0.2s;
+}
+
+.pw-toggle:hover {
+  color: var(--clr-accent);
+  background: var(--clr-accent-dim);
+}
+
+/* ── Password strength ────────────────────────────────────── */
+.strength-container { display: flex; flex-direction: column; gap: 5px; margin-top: 4px; }
+
+.strength-bar-wrap {
+  display: flex;
+  gap: 4px;
+}
+
+.strength-segment {
+  flex: 1;
+  height: 3px;
+  border-radius: 999px;
+  background: rgba(255,255,255,0.06);
+  transition: background 0.35s ease;
+}
+
+.strength-segment.weak   { background: var(--clr-open); }
+.strength-segment.medium { background: var(--clr-claimed); }
+.strength-segment.strong { background: var(--clr-resolved); }
+
+.strength-label { font-size: 0.7rem; color: var(--clr-text-muted); }
+.strength-label.weak-text   { color: var(--clr-open); }
+.strength-label.medium-text { color: var(--clr-claimed); }
+.strength-label.strong-text { color: var(--clr-resolved); }
+
+/* ═══════════════════════════════════════════════════════════
+   BRUTALISM — Error / Success Banners
+   ─────────────────────────────────────────────────────────
+   Harsh treatment: bold borders, monospace font, neon glow.
+   Feels like a "WARNING" stamp on a case file.
+   ═══════════════════════════════════════════════════════════ */
+.form-error {
+  font-family: var(--font-brutal);
+  font-size: 0.82rem;
+  letter-spacing: 0.04em;
+  background: rgba(255,59,48,0.07);
+  border: 1.5px solid var(--clr-danger);
+  border-radius: 4px;
+  color: #ff6b6b;
+  padding: 0.65rem 0.9rem;
+  display: flex;
+  align-items: flex-start;
+  gap: 0.5rem;
+  line-height: 1.5;
+  animation: errorSlideIn 0.3s ease;
+  box-shadow: 0 0 12px rgba(255,59,48,0.12), inset 0 0 12px rgba(255,59,48,0.04);
+}
+
+@keyframes errorSlideIn {
+  from { opacity: 0; transform: translateY(-6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.form-success {
+  font-family: var(--font-body);
+  background: rgba(52,199,89,0.08);
+  border: 1px solid rgba(52,199,89,0.3);
+  border-radius: 8px;
+  color: var(--clr-resolved);
+  font-size: 0.88rem;
+  padding: 0.65rem 0.9rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  animation: errorSlideIn 0.3s ease;
+}
+
+/* ── Submit ───────────────────────────────────────────────── */
+.auth-submit {
+  width: 100%;
+  padding: 0.88rem;
+  border-radius: 12px;
+  font-size: 1rem;
+  font-weight: 700;
+  margin-top: 0.25rem;
+  justify-content: center;
+  gap: 0.5rem;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Shimmer on hover */
+.auth-submit::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 60%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.13), transparent);
+  transition: left 0.5s ease;
+}
+.auth-submit:not(:disabled):hover::after { left: 150%; }
+
+/* ── Divider ──────────────────────────────────────────────── */
+.auth-divider {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin: 1rem 0;
+  color: var(--clr-text-faint);
+  font-size: 0.78rem;
+}
+.auth-divider::before,
+.auth-divider::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: rgba(255,255,255,0.06);
+}
+
+/* ── Footer ───────────────────────────────────────────────── */
+.auth-footer {
+  text-align: center;
+  margin-top: 1rem;
+  font-size: 0.86rem;
+  color: var(--clr-text-muted);
+}
+
+.auth-footer a,
+.auth-link {
+  color: var(--clr-accent);
+  font-weight: 600;
+  transition: opacity 0.2s;
+}
+.auth-footer a:hover,
+.auth-link:hover { opacity: 0.75; }
+
+/* ── Responsive ───────────────────────────────────────────── */
+@media (max-width: 480px) {
+  .auth-card { padding: 2.25rem 1.5rem; border-radius: 20px; }
+  .auth-title { font-size: 1.55rem; }
+}

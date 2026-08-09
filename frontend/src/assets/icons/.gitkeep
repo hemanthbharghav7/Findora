@@ -1,0 +1,11 @@
+/* icons/
+ * ------
+ * Icon assets for Findora.
+ *
+ * Future contents:
+ *  - favicon.ico       – Browser tab icon
+ *  - search.svg        – Search bar icon
+ *  - filter.svg        – Filter panel toggle icon
+ *  - upload.svg        – Image upload icon
+ *  - user.svg          – Default user avatar icon
+ */

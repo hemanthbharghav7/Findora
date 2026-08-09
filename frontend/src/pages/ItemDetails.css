@@ -1,0 +1,807 @@
+/* ============================================================
+   ItemDetails.css – The Detective Dossier (Includes Claims)
+   ============================================================
+   UI STYLES APPLIED:
+   ─────────────────────────────────────────────────────────
+   1. SKEUOMORPHISM   → Dossier Folder: styling with tab, aged
+                        manila paper color gradient, paper stack
+                        shadows, polaroid photo frame with handwritten
+                        label font style.
+   2. GLASSMORPHISM   → Claims box: frosted glass overlays,
+                        glow borders.
+   3. BRUTALISM       → Stamps & Classifications: monospace,
+                        Special Elite font, red outline stamps.
+   4. MINIMALISM      → Facts list: clean, borderless details.
+   ─────────────────────────────────────────────────────────── */
+
+.detail-page {
+  min-height: 100vh;
+  padding: 4rem 1.5rem;
+  background: var(--clr-bg);
+  position: relative;
+  display: flex;
+  justify-content: center;
+  z-index: 1;
+}
+
+/* Ambient glow */
+.detail-page::before {
+  content: '';
+  position: absolute;
+  top: 10%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 900px;
+  height: 900px;
+  background: radial-gradient(circle, rgba(245, 166, 35, 0.05) 0%, transparent 70%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* ── Loaders & Errors ─────────────────────────────────────── */
+.detail-loader, .detail-error-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1.5rem;
+  text-align: center;
+  margin-top: 10vh;
+  position: relative;
+  z-index: 2;
+}
+
+.detail-spinner {
+  width: 50px;
+  height: 50px;
+  border: 4px solid rgba(245, 166, 35, 0.15);
+  border-top-color: var(--clr-accent);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  box-shadow: 0 0 15px rgba(245,166,35,0.2);
+}
+
+@keyframes spin { to { transform: rotate(360deg); } }
+
+.detail-error-box {
+  background: rgba(255, 59, 48, 0.08);
+  border: 1.5px solid var(--clr-danger);
+  border-radius: var(--radius-lg);
+  padding: 2.5rem;
+  max-width: 480px;
+}
+
+.detail-error-icon {
+  font-size: 3rem;
+  filter: drop-shadow(0 0 12px rgba(255,59,48,0.4));
+}
+
+/* ── Dossier Wrapper ──────────────────────────────────────── */
+.dossier-wrapper {
+  width: 100%;
+  max-width: 920px;
+  position: relative;
+  z-index: 2;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   SKEUOMORPHISM — Dossier Folder
+   ─────────────────────────────────────────────────────────
+   Looks like a genuine manila paper crime dossier folder.
+   ═══════════════════════════════════════════════════════════ */
+.dossier-folder {
+  background: linear-gradient(160deg, #1d1d33 0%, #15152a 50%, #111124 100%);
+  background-image:
+    repeating-linear-gradient(
+      0deg,
+      rgba(255,255,255,0.006) 0px,
+      rgba(255,255,255,0.006) 1px,
+      transparent 1px,
+      transparent 4px
+    ),
+    linear-gradient(160deg, #1c1c30 0%, #151528 50%, #111124 100%);
+
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 0 24px 24px 24px; /* flat top-left for folder edge */
+  box-shadow:
+    0 30px 70px rgba(0, 0, 0, 0.65),
+    inset 0 1px 0 rgba(255, 255, 255, 0.05),
+    0 0 0 1px rgba(245,166,35,0.02);
+  overflow: hidden;
+  position: relative;
+}
+
+/* Top folder tab */
+.dossier-folder::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 120px;
+  height: 28px;
+  background: linear-gradient(135deg, rgba(255,255,255,0.06), transparent);
+  border-radius: 0 0 14px 0;
+  border-right: 1.5px solid rgba(255,255,255,0.08);
+  border-bottom: 1.5px solid rgba(255,255,255,0.08);
+}
+
+.dossier-folder.lost { border-top: 4px solid var(--clr-lost); }
+.dossier-folder.found { border-top: 4px solid var(--clr-found); }
+
+/* Police Warning Tape stripe (Amber / Black stripes) */
+.police-warning-tape {
+  height: 10px;
+  width: 100%;
+  background: repeating-linear-gradient(
+    -45deg,
+    #ff9f0a,
+    #ff9f0a 12px,
+    #090915 12px,
+    #090915 24px
+  );
+  border-bottom: 1.5px solid rgba(255, 255, 255, 0.08);
+}
+
+/* Background Watermark */
+.confidential-watermark {
+  position: absolute;
+  top: 35%;
+  left: 50%;
+  transform: translate(-50%, -50%) rotate(-28deg);
+  font-family: var(--font-brutal);
+  font-size: clamp(4rem, 15vw, 10rem);
+  font-weight: 900;
+  color: rgba(255, 69, 58, 0.025);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  pointer-events: none;
+  user-select: none;
+  z-index: 0;
+}
+
+/* Restricted Serial Barcode */
+.dossier-barcode {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 4px;
+  opacity: 0.75;
+  transition: opacity 0.3s;
+}
+
+.dossier-barcode:hover {
+  opacity: 1;
+}
+
+.barcode-lines {
+  display: flex;
+  height: 32px;
+  gap: 2.5px;
+  background: rgba(255, 255, 255, 0.9);
+  padding: 4px 10px;
+  border-radius: 3px;
+}
+
+.barcode-lines span {
+  display: block;
+  height: 100%;
+  background: #000;
+}
+
+.barcode-lines .line-w-1 { width: 1.5px; }
+.barcode-lines .line-w-2 { width: 3.5px; }
+.barcode-lines .line-w-3 { width: 5.5px; }
+
+.barcode-label {
+  font-family: var(--font-brutal);
+  font-size: 0.65rem;
+  letter-spacing: 0.15em;
+  color: var(--clr-text-muted);
+}
+
+/* Restricted Subtitle */
+.banner-restricted-notice {
+  font-family: var(--font-brutal);
+  font-size: 0.62rem;
+  color: var(--clr-text-faint);
+  letter-spacing: 0.1em;
+  margin-top: 4px;
+  display: block;
+}
+
+/* CLASSIFIED Security notice advisory block */
+.cid-security-notice {
+  margin: 1.5rem 2rem 0;
+  padding: 1.25rem 1.5rem;
+  background: rgba(255, 69, 58, 0.03);
+  border: 1px solid rgba(255, 69, 58, 0.15);
+  border-radius: 8px;
+  position: relative;
+  z-index: 1;
+  box-shadow: inset 0 0 10px rgba(255, 69, 58, 0.02);
+}
+
+.notice-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #ff453a;
+  font-family: var(--font-brutal);
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  margin-bottom: 0.6rem;
+}
+
+.notice-icon {
+  width: 14px;
+  height: 14px;
+}
+
+.notice-text {
+  font-size: 0.78rem;
+  line-height: 1.5;
+  color: var(--clr-text-muted);
+  margin: 0 0 1rem 0;
+}
+
+.notice-metadata {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  border-top: 1px dashed rgba(255, 69, 58, 0.15);
+  padding-top: 0.8rem;
+  font-family: var(--font-brutal);
+  font-size: 0.65rem;
+  color: var(--clr-text-faint);
+}
+
+@media (max-width: 767px) {
+  .notice-metadata {
+    grid-template-columns: 1fr;
+    gap: 6px;
+  }
+}
+
+/* ── Dossier Banner ───────────────────────────────────────── */
+.dossier-banner {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 2rem;
+  border-bottom: 2px dashed rgba(255, 255, 255, 0.08);
+  background: linear-gradient(90deg, rgba(255, 255, 255, 0.02), transparent);
+  margin-top: 14px;
+}
+
+/* Monospace brutalist label */
+.banner-classification {
+  font-family: var(--font-brutal);
+  font-size: 0.72rem;
+  letter-spacing: 0.16em;
+  color: var(--clr-open);
+  text-shadow: 0 0 8px rgba(255,59,48,0.3);
+  margin-bottom: 0.45rem;
+  display: block;
+}
+
+.banner-title {
+  font-family: var(--font-display);
+  font-size: clamp(1.4rem, 4vw, 2.2rem);
+  color: #fff;
+  margin: 0;
+  letter-spacing: 0.03em;
+}
+
+/* ── BRUTALISM — Status stamp ─────────────────────────────── */
+/* Physical stamp feel with Special Elite monospace and outline */
+.status-stamp {
+  font-family: var(--font-brutal);
+  font-size: 1.25rem;
+  font-weight: 700;
+  padding: 0.4rem 0.95rem;
+  border: 3px double;
+  border-radius: 6px;
+  transform: rotate(-6deg) scale(1.05);
+  display: inline-block;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.status-stamp.open {
+  color: var(--clr-open);
+  border-color: var(--clr-open);
+  text-shadow: 0 0 10px rgba(255,59,48,0.4);
+  box-shadow: 0 0 15px rgba(255,59,48,0.1);
+}
+
+.status-stamp.claimed {
+  color: var(--clr-claimed);
+  border-color: var(--clr-claimed);
+  text-shadow: 0 0 10px rgba(255,214,10,0.4);
+}
+
+.status-stamp.resolved {
+  color: var(--clr-resolved);
+  border-color: var(--clr-resolved);
+  text-shadow: 0 0 10px rgba(52,199,89,0.3);
+}
+
+/* Dossier body */
+.dossier-body { padding: 2rem; }
+
+/* Dossier grid layout structure */
+.dossier-body-grid {
+  display: grid;
+  grid-template-columns: 1.2fr 0.8fr;
+  gap: 2.25rem;
+  align-items: start;
+}
+
+.dossier-left-column {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.dossier-right-column {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+/* ── FORENSIC EVIDENCE PHOTO ────────────────────────────── */
+.evidence-photo-box {
+  background: rgba(6, 6, 12, 0.7);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 12px;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 
+    0 15px 35px rgba(0, 0, 0, 0.7),
+    inset 0 0 15px rgba(255, 159, 10, 0.05);
+  aspect-ratio: 16/10;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.3s ease, border-color 0.3s ease;
+}
+
+.evidence-photo-box:hover {
+  transform: translateY(-2px);
+  border-color: rgba(255, 159, 10, 0.3);
+}
+
+/* Forensic camera crosshairs corners */
+.photo-corners {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 2;
+  padding: 12px;
+}
+
+.photo-corners .corner {
+  position: absolute;
+  width: 14px;
+  height: 14px;
+  border: 2px solid rgba(255, 159, 10, 0.4);
+}
+
+.photo-corners .corner.tl { top: 12px; left: 12px; border-right: none; border-bottom: none; }
+.photo-corners .corner.tr { top: 12px; right: 12px; border-left: none; border-bottom: none; }
+.photo-corners .corner.bl { bottom: 12px; left: 12px; border-right: none; border-top: none; }
+.photo-corners .corner.br { bottom: 12px; right: 12px; border-left: none; border-top: none; }
+
+.photo-container {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.evidence-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0.75;
+  transition: transform 0.5s ease, opacity 0.5s ease;
+}
+
+.evidence-photo-box:hover .evidence-img {
+  transform: scale(1.04);
+  opacity: 0.9;
+}
+
+.photo-overlay {
+  position: absolute;
+  top: 12px;
+  left: 50%;
+  transform: translateX(-50%);
+  color: #ff9f0a;
+  font-family: var(--font-brutal);
+  font-size: 0.65rem;
+  letter-spacing: 0.15em;
+  background: rgba(3, 3, 7, 0.85);
+  padding: 3px 10px;
+  border-radius: 4px;
+  border: 1px solid rgba(255, 159, 10, 0.25);
+  white-space: nowrap;
+  pointer-events: none;
+}
+
+.photo-placeholder {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: rgba(16, 16, 26, 0.5);
+  color: var(--clr-text-faint);
+}
+
+.photo-placeholder .placeholder-icon {
+  font-size: 2.8rem;
+  margin-bottom: 0.5rem;
+  filter: drop-shadow(0 0 10px rgba(255, 159, 10, 0.2));
+}
+
+.photo-placeholder .placeholder-text {
+  font-family: var(--font-brutal);
+  font-size: 0.65rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+/* Forensic camera overlay meta */
+.photo-tech-data {
+  position: absolute;
+  bottom: 12px;
+  left: 12px;
+  right: 12px;
+  display: flex;
+  justify-content: space-between;
+  font-family: var(--font-brutal);
+  font-size: 0.6rem;
+  color: var(--clr-text-faint);
+  letter-spacing: 0.08em;
+  background: rgba(3, 3, 7, 0.7);
+  padding: 3px 8px;
+  border-radius: 3px;
+  pointer-events: none;
+}
+
+/* ── FID REPORTING AGENT CARD ────────────────────────────── */
+.reporter-box {
+  background: rgba(255, 255, 255, 0.01);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  padding: 1.25rem 1.5rem;
+  border-radius: 12px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+  position: relative;
+  overflow: hidden;
+}
+
+.reporter-header h3 {
+  font-family: var(--font-brutal);
+  font-size: 0.75rem;
+  letter-spacing: 0.1em;
+  color: var(--clr-text-muted);
+  border-bottom: 1px dashed rgba(255, 255, 255, 0.08);
+  padding-bottom: 0.45rem;
+  margin-bottom: 0.85rem;
+  text-transform: uppercase;
+}
+
+.reporter-info {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+}
+
+.reporter-avatar {
+  width: 44px;
+  height: 44px;
+  background: rgba(255, 159, 10, 0.08);
+  color: var(--clr-accent);
+  border: 1px solid rgba(255, 159, 10, 0.2);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.25rem;
+}
+
+.reporter-name { color: #fff; font-weight: 700; font-size: 0.95rem; margin: 0; }
+.reporter-email { color: var(--clr-text-muted); font-size: 0.82rem; margin: 0; }
+
+/* ── CLAIMS MANAGEMENT CARD ─────────────────────────────── */
+.claims-section-card {
+  background: rgba(255, 255, 255, 0.015);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  padding: 1.25rem 1.5rem;
+  border-radius: 12px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+}
+
+.banner-text-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+}
+
+.banner-icon-badge {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  background: rgba(255, 159, 10, 0.08);
+  border: 1.5px solid rgba(255, 159, 10, 0.25);
+  border-radius: 50%;
+  flex-shrink: 0;
+  box-shadow: 0 0 10px rgba(255, 159, 10, 0.1);
+}
+
+.banner-badge-svg {
+  width: 24px;
+  height: 24px;
+}
+
+/* Responsive grid modifications */
+@media (max-width: 900px) {
+  .dossier-body-grid {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+}
+
+/* ── MINIMALISM — Facts Grid ──────────────────────────────── */
+.detail-card-title {
+  font-family: var(--font-brutal);
+  font-size: 0.8rem;
+  letter-spacing: 0.1em;
+  color: var(--clr-text-muted);
+  border-bottom: 1px dashed rgba(255,255,255,0.08);
+  padding-bottom: 0.45rem;
+  margin-bottom: 1rem;
+  text-transform: uppercase;
+}
+
+.facts-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.1rem;
+  margin-bottom: 2rem;
+}
+
+.fact-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.65rem;
+}
+
+.fact-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--clr-accent);
+  margin-top: 0.35rem;
+  flex-shrink: 0;
+  box-shadow: 0 0 6px var(--clr-accent);
+}
+
+.fact-label {
+  font-size: 0.68rem;
+  color: var(--clr-text-faint);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  margin: 0 0 2px 0;
+  font-weight: 700;
+}
+
+.fact-value {
+  color: #fff;
+  font-weight: 600;
+  font-size: 0.92rem;
+  margin: 0;
+}
+
+/* Description Card */
+.description-card { margin-bottom: 2.25rem; }
+
+.detail-description {
+  color: var(--clr-text);
+  line-height: 1.65;
+  font-size: 0.95rem;
+  white-space: pre-wrap;
+  background: rgba(0,0,0,0.22);
+  padding: 1.35rem;
+  border-left: 3px solid var(--clr-accent);
+  border-radius: 0 8px 8px 0;
+  box-shadow: inset 2px 2px 8px rgba(0,0,0,0.15);
+}
+
+/* ═══════════════════════════════════════════════════════════
+   GLASSMORPHISM — Claims Section & Cards
+   ═══════════════════════════════════════════════════════════ */
+.claims-section {
+  border-top: 2px dashed rgba(255, 255, 255, 0.08);
+  padding-top: 2rem;
+  margin-bottom: 2rem;
+}
+
+.claims-inbox { display: flex; flex-direction: column; gap: 1rem; }
+
+.no-claims-text {
+  font-size: 0.88rem;
+  color: var(--clr-text-faint);
+  font-style: italic;
+}
+
+.claims-list { display: flex; flex-direction: column; gap: 0.85rem; }
+
+/* Claim Card: Glass treatment */
+.claim-card {
+  position: relative;
+  background: rgba(255,255,255,0.02);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 12px;
+  padding: 1.25rem;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.25);
+  transition: border-color 0.25s;
+}
+
+.claim-card:hover { border-color: rgba(255,255,255,0.12); }
+
+.claim-card.status-approved {
+  background: rgba(52, 199, 89, 0.04);
+  border-color: rgba(52, 199, 89, 0.25);
+  box-shadow: 0 4px 20px rgba(52,199,89,0.05);
+}
+
+.claim-card.status-rejected { opacity: 0.6; }
+
+.claim-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.85rem;
+}
+
+.claim-user { font-weight: 700; color: #fff; font-size: 0.92rem; }
+
+/* Mini status tag in inbox */
+.claim-badge {
+  font-family: var(--font-brutal);
+  font-size: 0.58rem;
+  padding: 2px 7px;
+  border-radius: 4px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  border-width: 1px;
+  border-style: solid;
+}
+.claim-badge.pending  { background: rgba(245,166,35,0.08); color: var(--clr-accent); border-color: rgba(245,166,35,0.3); }
+.claim-badge.approved { background: rgba(52,199,89,0.08); color: var(--clr-resolved); border-color: rgba(52,199,89,0.3); }
+.claim-badge.rejected { background: rgba(255,59,48,0.08); color: #ff6b6b; border-color: rgba(255,59,48,0.3); }
+
+.claim-message {
+  color: var(--clr-text-muted);
+  font-style: italic;
+  font-size: 0.88rem;
+  line-height: 1.5;
+  margin-bottom: 1rem;
+}
+
+.claim-contact {
+  background: rgba(255,255,255,0.03);
+  padding: 0.75rem 1rem;
+  border-radius: 6px;
+  font-size: 0.85rem;
+  color: var(--clr-secondary);
+  border: 1px solid rgba(0,201,167,0.15);
+}
+
+.claim-actions { display: flex; gap: 0.65rem; }
+
+.btn-approve, .btn-reject {
+  padding: 0.45rem 1rem;
+  border: none;
+  border-radius: 20px;
+  cursor: pointer;
+  font-weight: 700;
+  font-size: 0.78rem;
+  transition: all 0.2s;
+}
+.btn-approve { background: rgba(52,199,89,0.12); color: #2ecc71; border: 1px solid rgba(52,199,89,0.25); }
+.btn-approve:hover { background: rgba(52,199,89,0.2); transform: translateY(-1px); }
+
+.btn-reject  { background: rgba(255,59,48,0.12); color: #ff6b6b; border: 1px solid rgba(255,59,48,0.25); }
+.btn-reject:hover { background: rgba(255,59,48,0.2); transform: translateY(-1px); }
+
+/* Submit Claim / Status details */
+.claim-submission { display: flex; flex-direction: column; gap: 0.5rem; }
+
+.claim-help { font-size: 0.84rem; color: var(--clr-text-muted); line-height: 1.5; }
+
+/* Custom claim textarea */
+.claim-textarea {
+  width: 100%;
+  background: rgba(255,255,255,0.025);
+  border: none;
+  border-bottom: 1.5px solid rgba(255,255,255,0.08);
+  border-radius: 8px 8px 0 0;
+  padding: 0.85rem 1rem;
+  color: #fff;
+  font-family: inherit;
+  font-size: 0.88rem;
+  margin-bottom: 1rem;
+  outline: none;
+  transition: border-color 0.25s, background 0.25s;
+}
+
+.claim-textarea:focus {
+  background: rgba(245,166,35,0.03);
+  border-bottom-color: var(--clr-accent);
+}
+
+.my-claim-status {
+  background: rgba(255,255,255,0.02);
+  padding: 1.5rem;
+  border-radius: 12px;
+  border-left: 4px solid;
+  border-top: 1px solid rgba(255,255,255,0.04);
+}
+
+.my-claim-status.pending  { border-left-color: var(--clr-accent); }
+.my-claim-status.approved { border-left-color: var(--clr-secondary); }
+.my-claim-status.rejected { border-left-color: #ff3b30; }
+
+.my-claim-message { color: var(--clr-text-muted); font-style: italic; margin-bottom: 0.5rem; font-size: 0.88rem; }
+
+.item-resolved-notice {
+  text-align: center;
+  padding: 2rem 1.5rem;
+  background: rgba(255,255,255,0.02);
+  border: 1px dashed rgba(255,255,255,0.06);
+  border-radius: 12px;
+}
+.item-resolved-notice h3 { font-family: var(--font-brutal); font-size: 1rem; color: var(--clr-text-muted); margin-bottom: 0.45rem; }
+.item-resolved-notice p  { font-size: 0.84rem; color: var(--clr-text-faint); margin: 0; }
+
+/* Dossier Meta */
+.detail-meta {
+  display: flex;
+  justify-content: space-between;
+  border-top: 1px solid rgba(255,255,255,0.06);
+  padding-top: 1rem;
+  font-size: 0.72rem;
+  color: var(--clr-text-faint);
+  font-family: var(--font-brutal);
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+/* ── Responsive ───────────────────────────────────────────── */
+@media (max-width: 800px) {
+  .dossier-top-section { grid-template-columns: 1fr; gap: 1.5rem; }
+  .evidence-photo-box { max-width: 440px; margin-inline: auto; }
+  .facts-grid { grid-template-columns: 1fr; gap: 0.75rem; }
+}
+
+@media (max-width: 600px) {
+  .detail-page { padding: 2rem 1rem; }
+  .dossier-folder { border-radius: 16px; }
+  .dossier-banner { padding: 1.25rem 1.5rem; }
+  .status-stamp { font-size: 1rem; border-width: 2px; }
+  .dossier-body { padding: 1.25rem; }
+}
